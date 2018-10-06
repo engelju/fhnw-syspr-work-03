@@ -3,7 +3,7 @@
 Für Slides und Code Beispiele, siehe [Lektion 3](../../../fhnw-syspr/blob/master/03/README.md)
 
 > *Achtung: Arbeiten Sie nicht direkt auf diesem Repository.*<br/>
-> *[Erstellen Sie eine persönliche Kopie, mit diesem GitHub Classroom Link](https://classroom.github.com/a/TODO).*
+> *[Erstellen Sie eine persönliche Kopie, mit diesem GitHub Classroom Link](https://classroom.github.com/a/NP9Z70Ye).*
 
 ### a) TLPI Beispiele builden, 10'
 * [TLPI](http://www.man7.org/tlpi/) Beispielcode Setup auf dem Raspberry Pi:<pre>
