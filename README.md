@@ -5,7 +5,7 @@ Für Slides und Code Beispiele, siehe [Lektion 3](../../../fhnw-syspr/blob/maste
 > *Achtung: Arbeiten Sie nicht direkt auf diesem Repository.*<br/>
 > *[Erstellen Sie eine persönliche Kopie, mit diesem GitHub Classroom Link](https://classroom.github.com/a/TODO).*
 
-### a) TLPI Beispiele builden, 15'
+### a) TLPI Beispiele builden, 10'
 * [TLPI](http://www.man7.org/tlpi/) Beispielcode Setup auf dem Raspberry Pi:<pre>
     $ cd ~
     $ wget http://man7.org/tlpi/code/download/tlpi-180725-book.tar.gz
@@ -15,15 +15,27 @@ Für Slides und Code Beispiele, siehe [Lektion 3](../../../fhnw-syspr/blob/maste
     $ sudo apt-get install libacl1-dev
     $ make</pre>
 
-### b) File I/O, 30'
+### b) File I/O, 20'
+* Schreiben Sie ein Programm *my_clone.c*, dass seinen eigenen Programmtext auf *stdout* ausgibt.
+* Tipp: Verwenden Sie bekannte File I/O System Calls.
+* _v2: Erweitern Sie das Programm, dass es auch nach dem Umbenennen des Binaries noch funktioniert, bzw. den ebenfalls umbenannten Code findet.
+
+### c) File Append, 30'
 * Schreiben Sie ein Programm *my_cpu_temp.c*, dass die CPU Temperatur in ein File *./temp.txt* schreibt.
 * Hinweis für Raspberry Pi, Wert durch 1000 teilen:<pre>
     $ cat -v /sys/class/thermal/thermal_zone0/temp</pre>
 * Erweitern Sie das Programm, dass es alle 3 Sekunden einen neuen Messwert anhängt, im [CSV](https://tools.ietf.org/html/rfc4180) Format.
 * Hinweis: Die [sleep](http://man7.org/linux/man-pages/man3/sleep.3.html) Funktion ermöglicht Pausen.
 
-### c) Dup (auf Papier), 15'
-* Was ist der Output, nach jedem Aufruf von *write()*?<pre>
+### d) Atomic Append, 15'
+* Führen Sie das Programm [atomic_append](http://man7.org/tlpi/code/online/dist/fileio/atomic_append.c.html) aus und vergleichen Sie die Grösse der erzeugten Dateien *f1*, *f2*:<pre>
+$ ./atomic_append f1 1000000 & ./atomic_append f1 1000000
+$ ./atomic_append f2 1000000 x & ./atomic_append f2 1000000 x</pre>
+* Teilen Sie *atomic_append.c* in zwei Programme auf, *my_lseek.c* und *my_append.c*, ohne die Option 'x'.
+* Wiederholen Sie den obigen Test mit ihrem Code.
+
+### e) Dup (auf Papier), 15'
+* Was steht im File *f*, nach jedem Aufruf von *write()*?<pre>
     int fd1 = open(f, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     int fd2 = dup(fd1), fd3 = open(f, O_RDWR);
     write(fd1, "Ente,", 5);
@@ -32,15 +44,12 @@ Für Slides und Code Beispiele, siehe [Lektion 3](../../../fhnw-syspr/blob/maste
     write(fd1, "Haus,", 5);
     write(fd3, "Pferd", 5);</pre>
 
-### d) Buffering, 15'
-* Arbeiten Sie mit dem Beispielprogramm [write_bytes.c](http://man7.org/tlpi/code/online/dist/filebuff/write_bytes.c.html) (aus [TLPI](http://www.man7.org/tlpi/))
-* Die Grösse des Buffers beeinflusst den Call Overhead:<pre>
-    ssize_t w = write(fd, buf, BUF_SIZE);</pre>
-* Bei kleinem Buffer fallen System Calls ins Gewicht.<pre>
-    #define BUF_SIZE 1</pre>
-* Ab 4096 Bytes (= Blockgrösse) bleibt Zeit konstant.<pre>
-    #define BUF_SIZE 4096</pre>
-* Reproduzieren oder widerlegen Sie das Resultat.
+### f) Buffering, 15'
+* Kompilieren Sie das Programm [write_bytes](http://man7.org/tlpi/code/online/dist/filebuff/write_bytes.c.html) zuerst mit und dann ohne die Compiler Option *-DUSE_O_SYNC*.
+* Messen Sie die Laufzeit (real, sys) der Binaries, je mit *num-bytes* = 100000 und *buf-size* = 1, 16, 256, 4096:<pre>
+    $ time write_bytes my_file num-bytes buf-size</pre>
+* Welchen Einfluss hat die Buffergrösse? Und *O_SYNC*?
+* Wann/wozu ist Synchronisieren überhaupt nötig?
 
 ### Abgabe (optional)
 * Lokale Änderungen [committen und pushen](#git).
