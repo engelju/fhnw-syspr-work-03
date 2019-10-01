@@ -5,7 +5,7 @@ Für Slides und Code Beispiele, siehe [Lektion 3](../../../fhnw-syspr/blob/maste
 > *Achtung: Arbeiten Sie nicht direkt auf diesem Repository.*<br/>
 > *[Erstellen Sie eine persönliche Kopie, mit diesem GitHub Classroom Link](https://classroom.github.com/a/TODO).*
 
-### a) TLPI Beispiele builden, 10'
+### a) TLPI Beispiele builden, 15'
 * [TLPI](http://www.man7.org/tlpi/) Beispielcode Setup auf dem Raspberry Pi:<pre>
     $ cd ~
     $ wget http://man7.org/tlpi/code/download/tlpi-180725-book.tar.gz
@@ -15,26 +15,24 @@ Für Slides und Code Beispiele, siehe [Lektion 3](../../../fhnw-syspr/blob/maste
     $ sudo apt-get install libacl1-dev
     $ make</pre>
 
-### b) File I/O, 20'
+### b) File I/O, 15'
 * Schreiben Sie ein Programm *my_clone.c*, dass seinen eigenen Programmtext auf *stdout* ausgibt.
 * Tipp: Verwenden Sie bekannte File I/O System Calls.
 * _v2: Erweitern Sie das Programm, dass es auch nach dem Umbenennen des Binaries noch funktioniert, bzw. den ebenfalls umbenannten Code findet.
 
-### c) File Append, 30'
+### c) File Append, 15'
 * Schreiben Sie ein Programm *my_cpu_temp.c*, dass die CPU Temperatur in ein File *./temp.txt* schreibt.
 * Hinweis für Raspberry Pi, Wert durch 1000 teilen:<pre>
     $ cat -v /sys/class/thermal/thermal_zone0/temp</pre>
 * Erweitern Sie das Programm, dass es alle 3 Sekunden einen neuen Messwert anhängt, im [CSV](https://tools.ietf.org/html/rfc4180) Format.
 * Hinweis: Die [sleep](http://man7.org/linux/man-pages/man3/sleep.3.html) Funktion ermöglicht Pausen.
 
-### d) Atomic Append, 15'
+### d) Atomic Append, 5'
 * Führen Sie das Programm [atomic_append](http://man7.org/tlpi/code/online/dist/fileio/atomic_append.c.html) aus und vergleichen Sie die Grösse der erzeugten Dateien *f1*, *f2*:<pre>
 $ ./atomic_append f1 1000000 & ./atomic_append f1 1000000
 $ ./atomic_append f2 1000000 x & ./atomic_append f2 1000000 x</pre>
-* Teilen Sie *atomic_append.c* in zwei Programme auf, *my_lseek.c* und *my_append.c*, ohne die Option 'x'.
-* Wiederholen Sie den obigen Test mit ihrem Code.
 
-### e) Dup (auf Papier), 15'
+### e) Dup (auf Papier), 10'
 * Was steht im File *f*, nach jedem Aufruf von *write()*?<pre>
     int fd1 = open(f, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     int fd2 = dup(fd1), fd3 = open(f, O_RDWR);
@@ -44,7 +42,7 @@ $ ./atomic_append f2 1000000 x & ./atomic_append f2 1000000 x</pre>
     write(fd1, "Haus,", 5);
     write(fd3, "Pferd", 5);</pre>
 
-### f) Buffering, 15'
+### f) Buffering, 5'
 * Kompilieren Sie das Programm [write_bytes](http://man7.org/tlpi/code/online/dist/filebuff/write_bytes.c.html) zuerst mit und dann ohne die Compiler Option *-DUSE_O_SYNC*.
 * Messen Sie die Laufzeit (real, sys) der Binaries, je mit *num-bytes* = 100000 und *buf-size* = 1, 16, 256, 4096:<pre>
     $ time write_bytes my_file num-bytes buf-size</pre>
